@@ -7,15 +7,20 @@ import NewsList from "../../components/NewsList/NewsList";
 import Skeleton from "../../components/Skeleton/Skeleton";
 import Paginate from "../../components/Paginet/Paginate";
 import Categories from "../../components/Categories/Categories";
+import Search from "../../components/Search/Search";
+import { useDebounce } from "../../helpers/hooks/useDebounce";
 
 const Main = () => {
   const [news, setNews] = useState([]);
   const [categories, setCategoties] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState("All");
+  const [keywords, setKeywords] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPage = 10;
   const pageSize = 10;
+
+  const deboncedKeywords = useDebounce(keywords, 1500);
 
   const fetchNews = async (currentPage) => {
     try {
@@ -24,6 +29,7 @@ const Main = () => {
         page_number: currentPage,
         page_size: pageSize,
         category: selectedCategories === "All" ? null : selectedCategories,
+        keywords: deboncedKeywords,
       });
       setNews(response.news);
       setIsLoading(false);
@@ -49,7 +55,7 @@ const Main = () => {
 
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectedCategories]);
+  }, [currentPage, selectedCategories, deboncedKeywords]);
 
   const handleNextPage = () => {
     if (currentPage < totalPage) {
@@ -74,6 +80,9 @@ const Main = () => {
         setSelectedCategories={setSelectedCategories}
         selectedCategories={selectedCategories}
       />
+
+      <Search keywords={keywords} setKeywords={setKeywords}  />
+
       {news.length > 0 && !isLoading ? (
         <NewsBaner item={news[1]} />
       ) : (
