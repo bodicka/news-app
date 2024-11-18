@@ -1,4 +1,5 @@
 import { formatTimeAgo } from "../../helpers/formatTime";
+import withSkeleton from "../../helpers/hocs/withSkeleton";
 import Image from "../Image/Image";
 import styles from "./styles.module.css";
 
@@ -10,6 +11,8 @@ const NewsBaner = ({ item }) => {
       <p className={styles.extra}>{formatTimeAgo(item.published)} by {item.author}</p>
     </div>
   )
-}
+};
 
-export default NewsBaner
+const NewsBannerWithSkeleton = withSkeleton(NewsBaner, 'baner', 1);
+
+export default NewsBannerWithSkeleton;
