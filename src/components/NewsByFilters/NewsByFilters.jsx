@@ -1,10 +1,27 @@
-import { TOTAL_PAGES } from "../../constant/constants"
-import NewsFilters from "../NewsFilters/NewsFilters"
-import NewsList from "../NewsList/NewsList"
-import Paginate from "../Paginet/Paginate"
-import styles from "./styles.module.css"
+import { getNews } from "../../api/apiNews";
+import { PAGE_SIZE, TOTAL_PAGES } from "../../constant/constants";
+import { useDebounce } from "../../helpers/hooks/useDebounce";
+import { useFetch } from "../../helpers/hooks/useFetch";
+import { useFilters } from "../../helpers/hooks/useFilters";
+import NewsFilters from "../NewsFilters/NewsFilters";
+import NewsList from "../NewsList/NewsList";
+import PaginateWrapper from "../PaginateWrapper/PaginateWrapper";
+import styles from "./styles.module.css";
 
-const NewsByFilters = ({ filter, changeFilter, isLoading, news }) => {
+const NewsByFilters = () => {
+  const { filter, changeFilter } = useFilters({
+    page_number: 1,
+    page_size: PAGE_SIZE,
+    category: null,
+    keywords: "",
+  });
+
+  const deboncedKeywords = useDebounce(filter.keywords, 1500);
+
+  const { data, isLoading } = useFetch(getNews, {
+    ...filter,
+    keywords: deboncedKeywords,
+  });
 
   const handleNextPage = () => {
     if (filter.page_number < TOTAL_PAGES) {
@@ -25,26 +42,19 @@ const NewsByFilters = ({ filter, changeFilter, isLoading, news }) => {
   return (
     <section className={styles.section}>
       <NewsFilters filter={filter} changeFilter={changeFilter} />
-
-      <Paginate
+      <PaginateWrapper
+        top
+        bottom
         handleNextPage={handleNextPage}
         handlePageClick={handlePageClick}
         hadlePreviosPage={hadlePreviosPage}
         totalPages={TOTAL_PAGES}
         currentPage={filter.page_number}
-      />
-
-      <NewsList isLoading={isLoading} news={news} />
-
-      <Paginate
-        handleNextPage={handleNextPage}
-        handlePageClick={handlePageClick}
-        hadlePreviosPage={hadlePreviosPage}
-        totalPages={TOTAL_PAGES}
-        currentPage={filter.page_number}
-      />
+      >
+        <NewsList isLoading={isLoading} news={data?.news} />
+      </PaginateWrapper>
     </section>
-  )
-}
+  );
+};
 
-export default NewsByFilters
+export default NewsByFilters;
