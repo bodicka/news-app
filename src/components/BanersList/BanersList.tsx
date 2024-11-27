@@ -1,8 +1,13 @@
 import withSkeleton from "../../helpers/hocs/withSkeleton";
+import { INews } from "../../interfase/interfase";
 import NewsBaner from "../NewsBaner/NewsBaner";
 import styles from "./styles.module.css";
 
-const BanersList = ({ banners }) => {
+interface Props {
+  banners?: INews[] | null;
+};
+
+const BanersList = ({ banners }: Props) => {
   return (
     <ul className={styles.banners}>
       {banners?.map(banner => {
@@ -10,10 +15,10 @@ const BanersList = ({ banners }) => {
           <NewsBaner key={banner.id} item={banner}  />
         )
       })}
-    </ul>
+    </ul> 
   )
 }
 
-const BannersListWithSkeleton = withSkeleton(BanersList, 'baner', 10, 'row');
+const BannersListWithSkeleton = withSkeleton<Props>(BanersList, 'baner', 10, 'row');
 
 export default BannersListWithSkeleton
