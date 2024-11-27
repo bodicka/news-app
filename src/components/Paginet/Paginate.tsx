@@ -1,3 +1,4 @@
+import { PaginateProps } from "../../interfase/interfase";
 import styles from "./styles.module.css";
 
 const Paginate = ({
@@ -6,7 +7,7 @@ const Paginate = ({
   handlePageClick,
   handleNextPage,
   currentPage,
-}) => {
+}: PaginateProps) => {
   return (
     <div className={styles.paginate}>
       <button disabled={currentPage <= 1} onClick={hadlePreviosPage} className={styles.arrow}>

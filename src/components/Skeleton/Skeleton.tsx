@@ -1,6 +1,13 @@
+import { DirectionType, SkeletonType } from "../../interfase/interfase";
 import styles from "./styles.module.css";
 
-const Skeleton = ({ count = 1, type = "baner", direction = 'column' }) => {
+interface Props {
+  type?: SkeletonType;
+  count?: number;
+  direction?: DirectionType;
+}
+
+const Skeleton = ({ count = 1, type = "baner", direction = 'column' }: Props) => {
   return (
     <>
       {count > 1 ? (

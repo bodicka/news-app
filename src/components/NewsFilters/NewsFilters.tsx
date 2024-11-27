@@ -1,12 +1,18 @@
 import { getCategories } from "../../api/apiNews";
 import { useFetch } from "../../helpers/hooks/useFetch";
+import { CategoriesApiResponse, IFilters } from "../../interfase/interfase";
 import Categories from "../Categories/Categories";
 import Search from "../Search/Search";
 import Slider from "../Slider/Slider";
 import styles from "./styles.module.css";
 
-const NewsFilters = ({ filter, changeFilter }) => {
-  const { data: dataCategories } = useFetch(getCategories);
+interface Props {
+  filter: IFilters;
+  changeFilter: (key: string, value: string | null | number) => void; 
+}
+
+const NewsFilters = ({ filter, changeFilter }: Props) => {
+  const { data: dataCategories } = useFetch<CategoriesApiResponse, null>(getCategories);
 
   return (
     <div className={styles.filter}>
@@ -23,7 +29,7 @@ const NewsFilters = ({ filter, changeFilter }) => {
       ) : null}
 
       <Search
-        keywords={filter.keywords}
+        keywords={filter.keyword}
         setKeywords={(keywords) => changeFilter("keywords", keywords)}
       />
     </div>
