@@ -1,3 +1,4 @@
+import { useTheme } from "../../context/ThemeContext";
 import { PaginateProps } from "../../interfase/interfase";
 import styles from "./styles.module.css";
 
@@ -8,8 +9,10 @@ const Paginate = ({
   handleNextPage,
   currentPage,
 }: PaginateProps) => {
+  const { isDark } = useTheme()
+
   return (
-    <div className={styles.paginate}>
+    <div className={`${styles.paginate} ${isDark ? styles.dark : styles.light}`}>
       <button disabled={currentPage <= 1} onClick={hadlePreviosPage} className={styles.arrow}>
         {"<"}
       </button>

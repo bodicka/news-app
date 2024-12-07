@@ -11,3 +11,13 @@
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
 }
+
+.sliders.dark .arrow {
+  background-color: #23272f;
+  color: #f6f7f9;
+}
+
+.sliders.light .arrow {
+  background-color: white;
+  color: black;
+}
