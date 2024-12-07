@@ -22,6 +22,18 @@
   padding: 8px;
 }
 
+.paginate.dark .pageNumber,
+.paginate.dark .arrow {
+  background-color: #23272f;
+  color: #f6f7f9;
+}
+
+.paginate.light .pageNumber,
+.paginate.light .arrow {
+  background-color: white;
+  color: black;
+}
+
 .list {
   display: flex;
   align-items: center;
