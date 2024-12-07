@@ -11,3 +11,11 @@
   border: 1px solid #F2F3F5;
   border-radius: 12px;
 }
+
+.light {
+  background-color: white;
+}
+
+.dark {
+  background-color: #23272f;
+}
